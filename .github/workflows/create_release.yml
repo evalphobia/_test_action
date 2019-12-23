@@ -1,6 +1,6 @@
 name: Release
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   release:
@@ -9,5 +9,8 @@ jobs:
       - uses: actions/checkout@master
 
       - uses: codfish/semantic-release-action@master
+        id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo ${{ steps.release.outputs.release-version }}
