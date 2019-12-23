@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - uses: codfish/semantic-release-action@master
+      - uses: cycjimmy/semantic-release-action@v2
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: echo ${{ steps.release.outputs.release-version }}
+      - run: echo ${{ steps.release.outputs.new_release_version }}
