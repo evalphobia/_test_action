@@ -1,0 +1,18 @@
+name: Release
+
+on: 
+  push:
+    branches: master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: codfish/semantic-release-action@master
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: echo ${{ steps.release.outputs.release-version }}
