@@ -13,3 +13,7 @@ jobs:
         echo $(git log --oneline)
         echo $(git tag --points-at HEAD --sort=-v:refname)
         echo $(git rev-parse --short HEAD)
+
+    - name: show env2
+      run: |
+        make echo
