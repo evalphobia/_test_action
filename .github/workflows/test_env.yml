@@ -3,7 +3,6 @@ name: Env
 on: [push]
 
 jobs:
-jobs:
   release:
     runs-on: ubuntu-latest
     steps:
