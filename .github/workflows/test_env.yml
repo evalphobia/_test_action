@@ -1,0 +1,15 @@
+name: Env
+
+on: [push]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: show env
+      run: |
+        echo $(git log --oneline)
+        echo $(git tag --points-at HEAD --sort=-v:refname)
+        echo $(git rev-parse --short HEAD)
