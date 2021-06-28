@@ -1,0 +1,39 @@
+name: TestAction
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        required: true
+        description: 'Command Name'
+        default: ''
+      group:
+        required: true
+        description: 'Group Name'
+        default: 'a1'
+
+env:
+  COMMAND: '["bash","hoge.sh", $1]'
+  ENVIRONMENT: foo
+  USERS: '["bsoo","evalphobia1"]'
+jobs:
+  run:
+    name: run cmd
+    defaults:
+      run:
+        shell: bash
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: if not users
+        if: "!contains(env.USERS, github.actor)"
+        run: echo "NOT contains ${{ github.actor }}"
+
+      - name: if users
+        if: "contains(env.USERS, github.actor)"
+        run: echo "Contains ${{ github.actor }}"
+
+      - name: Run Command
+        run: bash echo ${{ env.ENVIRONMENT }} '["bash", "param1", ${{ env.COMMAND }}]'
