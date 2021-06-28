@@ -13,9 +13,9 @@ on:
         default: 'a1'
 
 env:
-  COMMAND: '["bash","hoge.sh", $1]'
   ENVIRONMENT: foo
   USERS: '["bsoo", "evalphobia"]'
+  WORKFLOW_USER: "\"${{ github.actor }}\""
 jobs:
   run:
     name: run cmd
@@ -28,12 +28,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: if not users
-        if: "!contains(env.USERS, \"${{ github.actor }}\")"
-        run: echo "NOT contains ${{ github.actor }}"
+        if: "!contains(env.USERS, env.WORKFLOW_USER)"
+        run: echo "NOT contains ${{ env.WORKFLOW_USER }}"
 
       - name: if users
-        if: "contains(env.USERS, \"${{ github.actor }}\")"
-        run: echo "Contains ${{ github.actor }}"
+        if: "contains(env.USERS, env.WORKFLOW_USER)"
+        run: echo "Contains ${{ env.WORKFLOW_USER }}"
+
+      - name: set params
+        run: >
+          _PARAMS=`echo | perl -ne '@a = split(/\s+/, $_); foreach (@a) {$_ = "\"$_\""}; print(join(", ", @a))'`
+          echo "PARAMS=$_PARAMS" >> $GITHUB_ENV
 
       - name: Run Command
-        run: echo ${{ env.ENVIRONMENT }} '["bash", "param1", ${{ env.COMMAND }}]'
+        run: echo ${{ env.ENVIRONMENT }} '["bash", "param1", ${{ env.PARAMS }}]'
