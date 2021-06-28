@@ -14,7 +14,7 @@ on:
 
 env:
   ENVIRONMENT: foo
-  USERS: '["bsoo", "evalphobia1"]'
+  USERS: '["bsoo", "1evalphobia"]'
   WORKFLOW_USER: "\"${{ github.actor }}\""
 jobs:
   run:
@@ -36,7 +36,7 @@ jobs:
         run: echo "Contains ${{ env.WORKFLOW_USER }}"
 
       - name: set params
-        run: >
+        run: |
           _PARAMS=`echo ${{ github.event.inputs.command }} | perl -ne '@a = split(/\s+/, $_); foreach (@a) {$_ = "\"$_\""}; print(join(", ", @a))'`
           echo "PARAMS=$_PARAMS" >> $GITHUB_ENV
 
